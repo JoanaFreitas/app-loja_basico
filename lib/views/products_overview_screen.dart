@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:shop/models/product.dart';
-import 'package:shop/providers/products.dart';
 import 'package:shop/widgets/product_grid.dart';
 
-enum FilterOptions{
+enum FilterOptions {
   Favorite,
   All,
 }
 
-class ProductsOverviewScren extends StatelessWidget {
+class ProductsOverviewScren extends StatefulWidget {
+  ProductsOverviewScren({Key? key}) : super(key: key);
+  @override
+  _ProductsOverviewScrenState createState() => _ProductsOverviewScrenState();
+}
+
+class _ProductsOverviewScrenState extends State<ProductsOverviewScren> {
+  bool _showFavoriteOnly = false;
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<Products>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('Minha loja'),
@@ -24,22 +27,24 @@ class ProductsOverviewScren extends StatelessWidget {
                 child: Text('Somente favoritos'),
                 value: FilterOptions.Favorite,
               ),
-                PopupMenuItem(
+              PopupMenuItem(
                 child: Text('todos'),
                 value: FilterOptions.All,
               ),
             ],
-            onSelected: (FilterOptions selectedValue){
-              if(selectedValue == FilterOptions.Favorite){
-               provider.showFavoriteOnly(); 
-              }else{
-                provider.showAll();
-              }
+            onSelected: (FilterOptions selectedValue) {
+              setState(() {
+                if (selectedValue == FilterOptions.Favorite) {
+                  _showFavoriteOnly = true;
+                } else {
+                  _showFavoriteOnly = false;
+                }
+              });
             },
           ),
         ],
       ),
-      body: ProductGrid(),
+      body: ProductGrid(_showFavoriteOnly),
     );
   }
 }
