@@ -17,7 +17,10 @@ class CartPage extends StatelessWidget {
       body: Column(
         children: [
           Card(
-            margin:  const EdgeInsets.all(25),
+            margin: const EdgeInsets.symmetric(
+              horizontal: 15,
+              vertical: 25,
+            ),
             child: Padding(
               padding: const EdgeInsets.all(10),
               child: Row(
@@ -29,7 +32,7 @@ class CartPage extends StatelessWidget {
                       fontSize: 20,
                     ),
                   ),
-                  SizedBox( width: 10),
+                  SizedBox(width: 10),
                   Chip(
                     backgroundColor: Theme.of(context).primaryColor,
                     label: Text(
@@ -44,11 +47,10 @@ class CartPage extends StatelessWidget {
                   TextButton(
                     child: Text('COMPRAR'),
                     style: TextButton.styleFrom(
-                      textStyle: TextStyle(
-                        color: Theme.of(context).primaryColor,
-                      )
-                    ),
-                    onPressed: (){},
+                        textStyle: TextStyle(
+                      color: Theme.of(context).primaryColor,
+                    )),
+                    onPressed: () {},
                   ),
                 ],
               ),
@@ -57,9 +59,9 @@ class CartPage extends StatelessWidget {
           Expanded(
             child: ListView.builder(
               itemCount: items.length,
-              itemBuilder: (ctx,i)=>CartItemWidget(items[i]),
-            ),),
-
+              itemBuilder: (ctx, i) => CartItemWidget(items[i]),
+            ),
+          ),
         ],
       ),
     );
