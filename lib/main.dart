@@ -4,6 +4,7 @@ import 'package:shop/models/cart.dart';
 import 'package:shop/models/order_list.dart';
 import 'package:shop/views/cart_page.dart';
 import 'package:shop/views/order_page.dart';
+import 'package:shop/views/product_form_page.dart';
 import 'package:shop/views/products_page.dart';
 import './views/products_overview_screen.dart';
 import './utils/app_routes.dart';
@@ -41,11 +42,12 @@ class MyApp extends StatelessWidget {
           AppRoutes.CART: (ctx) => CartPage(),
           AppRoutes.ORDERS: (ctx) => OrderPage(),
           AppRoutes.PRODUCTS: (ctx) => ProductsPage(),
+          AppRoutes.PRODUCTS_FORM: (ctx) => ProductFormPage(),
         },
         debugShowCheckedModeBanner: false,
       ),
     );
   }
 }
-//aula 252 parei aqui
+//aula 263 parei aqui: nao esquecer d conferir o erro do carregmeto da img
 
