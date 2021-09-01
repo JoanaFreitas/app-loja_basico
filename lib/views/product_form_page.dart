@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop/models/product.dart';
@@ -24,6 +22,22 @@ class _ProductFormPageState extends State<ProductFormPage> {
   void initState() {
     super.initState();
     _imageUrlFocus.addListener(updateImage);
+  }
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_formData.isEmpty) {
+      final arg = ModalRoute.of(context)?.settings.arguments;
+      if (arg != null) {
+        final product = arg as Product;
+        _formData['id'] = product.id;
+        _formData['name'] = product.name;
+        _formData['price'] = product.price;
+        _formData['description'] = product.description;
+        _formData['imageUrl'] = product.imageUrl;
+        _imageUrlControler.text = product.imageUrl;
+      }
+    }
   }
 
   @override
@@ -55,12 +69,12 @@ class _ProductFormPageState extends State<ProductFormPage> {
     }
 
     _formKey.currentState?.save();
-    
+
     Provider.of<ProductList>(
       context,
-       listen: false,
-       ).addProductFromData(_formData);
-       Navigator.of(context).pop();
+      listen: false,
+    ).saveProduct(_formData);
+    Navigator.of(context).pop();
   }
 
   @override
@@ -82,6 +96,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
           child: ListView(
             children: [
               TextFormField(
+                initialValue:_formData['name']?.toString(),
                 decoration: InputDecoration(labelText: 'Nome'),
                 textInputAction: TextInputAction.next,
                 onFieldSubmitted: (_) {
@@ -100,6 +115,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
                 },
               ),
               TextFormField(
+                initialValue:_formData['price']?.toString(),
                 decoration: InputDecoration(labelText: 'Preço'),
                 textInputAction: TextInputAction.next,
                 focusNode: _priceFocus,
@@ -111,31 +127,32 @@ class _ProductFormPageState extends State<ProductFormPage> {
                 },
                 onSaved: (price) =>
                     _formData['price'] = double.parse(price ?? '0'),
-                    validator: (_price){
-                      final priceString = _price??'';
-                      final price = double.tryParse(priceString)?? -1;
-                      if (price<=0){
-                        return 'Informe um preço válido';
-                      }
-                      return null;
-                    },
+                validator: (_price) {
+                  final priceString = _price ?? '';
+                  final price = double.tryParse(priceString) ?? -1;
+                  if (price <= 0) {
+                    return 'Informe um preço válido';
+                  }
+                  return null;
+                },
               ),
               TextFormField(
+                initialValue:_formData['description']?.toString(),
                 decoration: InputDecoration(labelText: 'Descrição'),
                 focusNode: _descriptionFocus,
                 keyboardType: TextInputType.multiline,
                 maxLines: 3,
                 onSaved: (description) =>
                     _formData['description'] = description ?? '',
-                    validator: (_description) {
-                  final description = _description??'';
-                  if(description.trim().isEmpty){
+                validator: (_description) {
+                  final description = _description ?? '';
+                  if (description.trim().isEmpty) {
                     return 'Descrição é obrigatória';
                   }
-                   if(description.trim().length<10){
+                  if (description.trim().length < 10) {
                     return 'Descrição precisa no mínimo 10 letras';
                   }
-                return null;  
+                  return null;
                 },
               ),
               Row(
