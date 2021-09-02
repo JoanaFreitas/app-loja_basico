@@ -49,5 +49,4 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-//aula 263 parei aqui: nao esquecer d conferir o erro do carregmeto da img(conf:parece td ok)
-
+//aula 271 parei aqui
